@@ -1,0 +1,19 @@
+{
+  "name": "invoice-tools",
+  "description": "Agents and skills for invoice processing, Xero accounting, and tax calculations",
+  "version": "1.0.0",
+  "author": {
+    "name": "Kieran O'Hara"
+  },
+  "keywords": [
+    "invoice",
+    "xero",
+    "accounting",
+    "tax",
+    "uber-eats",
+    "amazon"
+  ],
+  "license": "MIT",
+  "agents": "./agents",
+  "skills": "./skills"
+}

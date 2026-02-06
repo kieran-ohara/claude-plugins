@@ -1,0 +1,24 @@
+{
+  "name": "kierans-plugins",
+  "owner": {
+    "name": "Kieran O'Hara"
+  },
+  "plugins": [
+    {
+      "name": "invoice-tools",
+      "source": "./plugins/invoice-tools",
+      "description": "Agents and skills for invoice processing, Xero accounting, and tax calculations"
+    },
+    {
+      "name": "dev-tools",
+      "source": "./plugins/dev-tools",
+      "description": "Agents for development workflows including git analysis, GitHub PR management, and domain modeling"
+    },
+    {
+      "name": "personal-tools",
+      "source": "./plugins/personal-tools",
+      "description": "Agents and skills for personal automation including grocery shopping and medication ordering"
+    }
+  ]
+}
+
