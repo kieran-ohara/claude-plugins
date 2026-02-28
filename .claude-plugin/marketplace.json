@@ -10,7 +10,8 @@
       "description": "Agents and skills for invoice processing, Xero accounting, and tax calculations",
       "skills": [
         "./skills/amazon-invoice",
-        "./skills/uber-eats-invoice"
+        "./skills/uber-eats-invoice",
+        "./skills/xero-invoice-importer"
       ]
     },
     {
