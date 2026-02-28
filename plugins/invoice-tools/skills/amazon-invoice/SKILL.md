@@ -1,10 +1,7 @@
-# /amazon-invoice
-
-## Description
-
-Processes Amazon invoice PDFs and creates bank transactions in Xero for
-reconciliation. Handles single/multi-page invoices with proper VAT treatment
-and line item breakdown.
+---
+name: amazon-invoice
+description: Processes Amazon invoice PDFs and creates bank transactions in Xero for reconciliation. Handles single/multi-page invoices with proper VAT treatment and line item breakdown.
+---
 
 ## Functionality
 

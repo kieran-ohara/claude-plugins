@@ -1,10 +1,7 @@
-# /uber-eats-invoice
-
-## Description
-
-Processes Uber Eats invoice PDFs and creates bank transactions in Xero for
-reconciliation. Handles the dual-invoice structure (restaurant + delivery) with
-proper VAT treatment and line item breakdown.
+---
+name: uber-eats-invoice
+description: Processes Uber Eats invoice PDFs and creates bank transactions in Xero for reconciliation. Handles the dual-invoice structure (restaurant + delivery) with proper VAT treatment and line item breakdown.
+---
 
 ## Functionality
 
