@@ -17,7 +17,10 @@
     {
       "name": "dev-tools",
       "source": "./plugins/dev-tools",
-      "description": "Agents for development workflows including git analysis, GitHub PR management, and domain modeling"
+      "description": "Agents and skills for development workflows including git analysis, GitHub PR management, and domain modeling",
+      "skills": [
+        "./skills/study-domain"
+      ]
     },
     {
       "name": "personal-tools",
