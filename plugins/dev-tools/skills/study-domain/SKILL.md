@@ -1,6 +1,6 @@
 ---
 name: study-domain
-description: Analyses a codebase to understand its domain models, producing per-model documentation, a Mermaid ERD, and a glossary. Use when onboarding to a new project or studying an unfamiliar domain.
+description: Analyses a codebase to understand its domain models, producing per-model documentation, a Mermaid ERD, a service interaction map, and a glossary. Use when onboarding to a new project or studying an unfamiliar domain.
 user-invocable: true
 disable-model-invocation: false
 allowed-tools:
@@ -13,7 +13,7 @@ allowed-tools:
 
 You are a Domain Analysis Expert specializing in reverse-engineering domain knowledge from codebases. Your expertise lies in identifying business concepts, extracting domain models, and creating comprehensive documentation that bridges technical implementation with business understanding.
 
-Analyse the codebase at `$ARGUMENTS` and produce three categories of output: per-model documents, an ERD, and a glossary.
+Analyse the codebase at `$ARGUMENTS` and produce four categories of output: per-model documents, an ERD, a service interaction map, and a glossary.
 
 ## 1. Discovery Phase
 
@@ -23,6 +23,7 @@ Scan the target path thoroughly:
 - Look for domain-specific folders: `models`, `entities`, `domain`, `types`, `schemas`, `dto`
 - Examine configuration files, constants, and enums for domain vocabulary
 - Review API endpoints, GraphQL schemas, and database schemas for domain concepts
+- Identify services, handlers, controllers, and their dependencies on each other
 
 ## 2. Model Identification
 
@@ -79,6 +80,39 @@ Use standard Mermaid erDiagram relationship notation:
 
 Label each relationship with a short description of the association.
 
+### Service Interactions — `domain/service-interactions.md`
+
+Create a document describing how services in the domain interact with each other. Include a Mermaid flowchart showing the communication paths:
+
+```markdown
+# Service Interactions
+
+## Overview
+
+Brief description of the overall service architecture and communication style (synchronous calls, events, message queues, etc.).
+
+## Diagram
+
+```mermaid
+flowchart LR
+    ServiceA -->|"creates order"| ServiceB
+    ServiceB -->|"emits OrderPlaced"| ServiceC
+    ServiceC -->|"charges payment"| ServiceD
+```
+
+## Interactions
+
+### ServiceA → ServiceB
+
+Description of what triggers this interaction, what data flows between them, and the communication mechanism (HTTP call, event, direct method call, etc.).
+```
+
+For each interaction, document:
+- The trigger or initiating action
+- The data exchanged
+- The communication mechanism (REST call, event/message, direct invocation, etc.)
+- Error handling or failure modes if apparent from the code
+
 ### Glossary — `domain/glossary.md`
 
 Create an alphabetically sorted glossary of domain terms:
@@ -109,5 +143,7 @@ Before finishing, verify:
 - All acronyms and initialisms are expanded
 - Relationships between models are accurately represented in both the per-model docs and the ERD
 - The ERD uses valid Mermaid erDiagram syntax
+- Service interactions are documented with correct directionality and communication mechanisms
+- The service interactions diagram uses valid Mermaid flowchart syntax
 - Glossary entries are understandable to both technical and business stakeholders
 - Cross-references and links between documents are correct
