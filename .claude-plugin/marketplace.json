@@ -19,13 +19,17 @@
       "source": "./plugins/dev-tools",
       "description": "Agents and skills for development workflows including git analysis, GitHub PR management, and domain modeling",
       "skills": [
-        "./skills/study-domain"
+        "./skills/study-domain",
+        "./skills/analyse-use-cases"
       ]
     },
     {
       "name": "personal-tools",
       "source": "./plugins/personal-tools",
-      "description": "Agents and skills for personal automation including grocery shopping and medication ordering"
+      "description": "Agents and skills for personal automation including grocery shopping and medication ordering",
+      "skills": [
+        "./skills/annotate-lead-tags"
+      ]
     }
   ]
 }
