@@ -11,6 +11,7 @@
       "skills": [
         "./skills/amazon-invoice",
         "./skills/uber-eats-invoice",
+        "./skills/verify-payslip",
         "./skills/xero-invoice-importer"
       ]
     },
