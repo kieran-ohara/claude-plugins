@@ -31,7 +31,8 @@
       "source": "./plugins/personal-tools",
       "description": "Agents and skills for personal automation including grocery shopping and medication ordering",
       "skills": [
-        "./skills/annotate-lead-tags"
+        "./skills/annotate-lead-tags",
+        "./skills/index-pages"
       ]
     }
   ]
