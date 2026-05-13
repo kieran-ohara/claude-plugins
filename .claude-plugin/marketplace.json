@@ -20,8 +20,9 @@
       "source": "./plugins/dev-tools",
       "description": "Agents and skills for development workflows including git analysis, GitHub PR management, and domain modeling",
       "skills": [
-        "./skills/study-domain",
-        "./skills/find-use-cases"
+        "./skills/deploy",
+        "./skills/find-use-cases",
+        "./skills/study-domain"
       ]
     },
     {
