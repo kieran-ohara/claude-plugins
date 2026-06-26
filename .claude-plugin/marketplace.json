@@ -24,6 +24,7 @@
         "./skills/babysit-pr",
         "./skills/deploy",
         "./skills/find-use-cases",
+        "./skills/langfuse",
         "./skills/study-domain"
       ]
     },
