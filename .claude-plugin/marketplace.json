@@ -25,6 +25,7 @@
         "./skills/deploy",
         "./skills/find-use-cases",
         "./skills/langfuse",
+        "./skills/stack-commits",
         "./skills/study-domain"
       ]
     },
