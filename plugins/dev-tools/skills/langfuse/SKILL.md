@@ -68,6 +68,10 @@ langfuse api <resource> <action> --curl
 
 Annotation queues hold items (traces or observations) waiting for human review. Each queue has a fixed set of `scoreConfigIds` (the "scorecard") that reviewers fill in.
 
+> **Lead Tagged Review queue**: the recurring "review my recruiter-lead extractions" workflow uses
+> project `cmlib9i3a0131ad07268w56s9`, queue `cmlmbcbez0cpuad07tvet21uq`. Start from this queue ID
+> when the user asks to review/annotate their lead tags.
+
 ### Concepts
 
 - **Queue**: container with a name and a list of `scoreConfigIds`.
