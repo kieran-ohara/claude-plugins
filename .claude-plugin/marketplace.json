@@ -7,9 +7,10 @@
     {
       "name": "invoice-tools",
       "source": "./plugins/invoice-tools",
-      "description": "Agents and skills for invoice processing, Xero accounting, and tax calculations",
+      "description": "Skills for invoice processing, Xero accounting, and tax calculations",
       "skills": [
         "./skills/amazon-invoice",
+        "./skills/corporation-tax",
         "./skills/uber-eats-invoice",
         "./skills/verify-payslip",
         "./skills/xero-invoice-importer"
