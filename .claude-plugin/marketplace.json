@@ -23,6 +23,7 @@
       "skills": [
         "./skills/analyse-use-cases",
         "./skills/babysit-pr",
+        "./skills/changeset",
         "./skills/deploy",
         "./skills/find-use-cases",
         "./skills/fixup",
