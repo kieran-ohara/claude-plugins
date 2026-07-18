@@ -1,18 +1,22 @@
 ---
 name: langfuse
-description: Interact with Langfuse and access its documentation. Use when needing to (1) query or modify Langfuse data programmatically via the CLI — traces, prompts, datasets, scores, sessions, and any other API resource, (2) look up Langfuse documentation, concepts, integration guides, or SDK usage, or (3) understand how any Langfuse feature works. This skill covers CLI-based API access (via npx) and multiple documentation retrieval methods.
+description: Interact with Langfuse and access its documentation. Use when needing to (1) query or modify Langfuse data via MCP tools — traces, observations, prompts, datasets, scores, sessions, annotation queues, and any other API resource, (2) look up Langfuse documentation, concepts, integration guides, or SDK usage, or (3) understand how any Langfuse feature works. This skill covers MCP-based data access and multiple documentation retrieval methods.
 allowed-tools:
   - WebFetch(domain:langfuse.com)
-  - Bash(langfuse api __schema *)
-  - Bash(langfuse api * --help *)
-  - Bash(langfuse api * list *)
-  - Bash(langfuse api * get *)
-  - Bash(langfuse api * get-*)
-  - Bash(langfuse api annotation-queues update *)
-  - Bash(bash */find-unannotated-scores.sh *)
-  - Bash(bash */fetch-item-context.sh *)
-  - Bash(bash */write-score.sh *)
-  - Bash(bash */promote-to-dataset.sh *)
+  - mcp__1mcp-dev__langfuse_1mcp_listAnnotationQueues
+  - mcp__1mcp-dev__langfuse_1mcp_listAnnotationQueueItems
+  - mcp__1mcp-dev__langfuse_1mcp_getAnnotationQueue
+  - mcp__1mcp-dev__langfuse_1mcp_getAnnotationQueueItem
+  - mcp__1mcp-dev__langfuse_1mcp_updateAnnotationQueueItem
+  - mcp__1mcp-dev__langfuse_1mcp_listScores
+  - mcp__1mcp-dev__langfuse_1mcp_getScoreConfig
+  - mcp__1mcp-dev__langfuse_1mcp_createScore
+  - mcp__1mcp-dev__langfuse_1mcp_getObservation
+  - mcp__1mcp-dev__langfuse_1mcp_listObservations
+  - mcp__1mcp-dev__langfuse_1mcp_upsertDataset
+  - mcp__1mcp-dev__langfuse_1mcp_upsertDatasetItem
+  - mcp__1mcp-dev__langfuse_1mcp_listDatasetItems
+  - mcp__1mcp-dev__langfuse_1mcp_deleteDatasetItem
 ---
 
 # Langfuse
@@ -27,42 +31,35 @@ Follow these principles for ALL Langfuse work:
 1. **Documentation First**: NEVER implement based on memory. Always fetch
    current docs before writing code (Langfuse updates frequently). See the
    section below on how to access documentation.
-2. **CLI for Data Access**: Use `langfuse-cli` when querying/modifying Langfuse
-   data. See the section below on how to use the CLI.
+2. **MCP for Data Access**: Use the Langfuse MCP tools when querying/modifying
+   Langfuse data. See the section below on how to use them.
 3. **Use latest Langfuse versions**: Unless the user specified otherwise or
    there's a good reason, always use the latest version of Langfuse SDKs/APIs.
 
-## 1. Langfuse API via CLI
+## 1. Langfuse Data Access via MCP
 
-Use the `langfuse` CLI to interact with the full Langfuse REST API from the command line.
+Use the Langfuse MCP tools (`mcp__1mcp-dev__langfuse_1mcp_*`) for all
+programmatic access to Langfuse data — traces, observations, scores,
+annotation queues, datasets, prompts, metrics, and more.
 
-Documentation: https://langfuse.com/docs/api-and-data-platform/features/cli
+These tools are deferred; load their schemas once per session with
+ToolSearch before calling them, e.g.:
 
-Start by discovering the schema and available arguments:
-
-```bash
-# Discover all available resources
-langfuse api __schema
-
-# List actions for a resource
-langfuse api <resource> --help
-
-# Show args/options for a specific action
-langfuse api <resource> <action> --help
-
-# Preview the curl command without executing
-langfuse api <resource> <action> --curl
+```
+select:mcp__1mcp-dev__langfuse_1mcp_listAnnotationQueues,mcp__1mcp-dev__langfuse_1mcp_getAnnotationQueueItem,mcp__1mcp-dev__langfuse_1mcp_createScore
 ```
 
-### Tips
+or a keyword search (`langfuse dataset`, `langfuse prompt`, `langfuse metrics`,
+...) for a tool not already listed in this skill's `allowed-tools`.
 
-- Use `--json` for machine-readable JSON output
-- Use `--curl` to preview the HTTP request without executing
-- Pagination: use `--limit` and `--page` on list endpoints
-- All list commands support filtering — check `<resource> <action> --help` for available options
-- Prefer `observations-v2s` over `observations` — the v2 endpoint returns richer data
-- Prefer `metrics-v2s` over `metrics` — the v2 endpoint returns richer data
-- Prefer `score-v2s` over `scores` — the v1 `scores` resource only supports create/delete; use `score-v2s` for list and get operations
+### Known gap: no trace-fetch tool
+
+There is no `getTrace`/`listTraces` tool. To inspect a trace's own
+input/output/metadata, call `listObservations` with `traceId` and take the
+observation whose `parentObservationId` is empty (the root span) — its
+`input`/`output`/`metadata` mirror the trace's. Trace-only fields (`tags`,
+`bookmarked`, `public`, `release`) are not recoverable this way; none of the
+workflows in this skill depend on them.
 
 ## 2. Annotation Queues
 
@@ -85,30 +82,27 @@ An item is "unannotated" for a given score config when no score with that `confi
 
 ### Listing queues and items
 
-```bash
-# All queues in the project
-langfuse api annotation-queues list --json
+```
+listAnnotationQueues({ page: 1, limit: 50 })
 
-# Items in a queue, filtered by status
-langfuse api annotation-queues get-list-queue-items <queue-id> --status PENDING --limit 50 --json
+listAnnotationQueueItems({ queueId, status: "PENDING", page: 1, limit: 50 })
 
-# A single item (reveals objectId + objectType: OBSERVATION | TRACE)
-langfuse api annotation-queues get-get-queue-item <queue-id> <item-id> --json
+getAnnotationQueueItem({ queueId, itemId })   # reveals objectId + objectType: OBSERVATION | TRACE
 ```
 
-`--limit` is hard-capped at 100 on list endpoints; paginate with `--page` for larger queues.
+`limit` is capped at 100; paginate with `page` for larger queues.
 
 ### Finding unannotated score configs for an item
 
-A helper script wraps the four-step query: resolve item → fetch queue scorecard → fetch existing scores for the object filtered by queue → diff.
+1. `getAnnotationQueueItem({ queueId, itemId })` → `objectId`, `objectType`
+2. `getAnnotationQueue({ queueId })` → `scoreConfigIds[]` (the expected scorecard)
+3. `listScores({ queueId, observationId: [objectId], page: 1, limit: 100 })` — or `traceId: objectId` when `objectType` is `TRACE` — → `configId`s already scored on this object within this queue
+4. Missing configs = `scoreConfigIds` minus the `configId`s from step 3 (plain set diff, no tooling needed)
+5. For each missing id, `getScoreConfig({ configId })` → resolve to `{name, dataType, categories}`
 
-```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/find-unannotated-scores.sh <queue-id> <item-id>
-```
+For a `PENDING` item, every config in the queue's `scoreConfigIds` will appear missing. For an in-progress item, only the gaps appear.
 
-Output is tab-separated `configId<TAB>name`, one missing config per line. Exit code `0` even when no configs are missing (empty output). Exit `2` on upstream API failure.
-
-For a `PENDING` item, every config in the queue's `scoreConfigIds` will appear. For an in-progress item, only the gaps appear.
+Score reads are eventually consistent — a score just written may not show up in `listScores` immediately; retry briefly if a just-created score seems to be missing.
 
 ### Annotating an item
 
@@ -116,11 +110,17 @@ End-to-end workflow when the user wants to annotate a queue item.
 
 #### 1. Fetch context
 
-```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/fetch-item-context.sh <queue-id> <item-id>
-```
+Assemble in one pass:
 
-Returns a JSON blob containing the queue, item, observation/trace (with `input` and `output`), and the list of unannotated score configs (skip-listed names already removed). Each config includes its `dataType` and `categories` so you know the allowed values.
+- `getAnnotationQueue({ queueId })` → queue name + `scoreConfigIds[]`
+- `getAnnotationQueueItem({ queueId, itemId })` → `objectId`, `objectType`, `status`
+- The object itself:
+  - `objectType: OBSERVATION` → `getObservation({ observationId: objectId, fields: ["*"] })` for `input`/`output`/`metadata`
+  - `objectType: TRACE` → `listObservations({ traceId: objectId, fields: ["*"] })`, then take the root observation (empty `parentObservationId`) — see the trace-fetch gap note above
+- Missing score configs (the 5-step lookup above)
+- Filter out any config whose `name` appears in `skip-configs.txt` (see below)
+
+Each remaining config includes its `dataType` and `categories` so you know the allowed values.
 
 #### 2. Present a verdict table to the user
 
@@ -139,58 +139,46 @@ Confirm verdicts with the user before writing.
 
 One call per config:
 
-```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/write-score.sh \
-  --queue-id <queue-id> \
-  --trace-id <trace-id> \
-  --observation-id <observation-id> \
-  --config-id <config-id> \
-  --name <score-name> \
-  --value <category-label> \
-  --comment "<short reason>"
+```
+createScore({
+  traceId,
+  observationId,   // only when scoring an observation
+  configId,
+  queueId,
+  name,
+  value,           // category LABEL for CATEGORICAL/TEXT/CORRECTION (e.g. "correct"), a number for NUMERIC/BOOLEAN
+  dataType,        // "CATEGORICAL" | "NUMERIC" | "BOOLEAN" | "CORRECTION" | "TEXT"
+  comment,
+})
 ```
 
-For categorical configs (the common case), `--value` is the category **label** (e.g. `"correct"`), not the numeric value. Langfuse fills in `stringValue` and the numeric `value` automatically from the config.
+For categorical configs (the common case), `value` is the category **label**, not the numeric value — Langfuse fills in `stringValue` and the numeric `value` automatically from the config.
 
 #### 4. Mark the item completed
 
-Items do not auto-complete when the scorecard is filled. Patch the status:
+Items do not auto-complete when the scorecard is filled. Update the status:
 
-```bash
-langfuse api annotation-queues update <queue-id> <item-id> --status COMPLETED
+```
+updateAnnotationQueueItem({ queueId, itemId, status: "COMPLETED" })
 ```
 
 #### Skip-list
 
-`scripts/skip-configs.txt` lists score-config names to omit from the unannotated list. One name per line, `#` comments allowed. Add a name here to stop the workflow proposing verdicts for an orphaned/deprecated config without archiving it in Langfuse.
+`skip-configs.txt` lists score-config names to omit from the unannotated list. One name per line, `#` comments allowed. Add a name here to stop the workflow proposing verdicts for an orphaned/deprecated config without archiving it in Langfuse.
 
 ### Promoting completed items to a dataset
 
-After an item is `COMPLETED`, you can promote it to a Langfuse dataset. The user message becomes `input`, the parsed extraction becomes `expectedOutput`, and the dataset item is linked back to the source observation.
+After an item is `COMPLETED`, you can promote it to a Langfuse dataset. Only `OBSERVATION`-typed items are supported (dataset items are sourced from an observation's input/output).
 
-```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/promote-to-dataset.sh \
-  --queue-id <queue-id> \
-  --item-id <item-id> \
-  --dataset-name <dataset-name> \
-  [--correction '<json>' | --correction-file <path>] \
-  [--json]
-```
+1. `getAnnotationQueueItem({ queueId, itemId })` → `objectId`
+2. `getObservation({ observationId: objectId, fields: ["*"] })` → inspect the *actual* `input`/`output` shape for this integration before extracting. Do not assume a fixed shape (e.g. langchain chat-messages in, `{content, role}` out) — extraction targets vary per app. Derive:
+   - `input`: the source content being extracted from (e.g. the user-facing message text)
+   - `expectedOutput`: the parsed extraction to treat as ground truth
+3. If the user supplies a correction, deep-merge it into `expectedOutput` before saving, so the dataset reflects the *correct* answer rather than the model's mistake
+4. `upsertDataset({ name: <dataset-name> })` → idempotent; returns the dataset whether it already existed or not — use its `id` next
+5. `upsertDatasetItem({ datasetId, input, expectedOutput, sourceTraceId: <observation.traceId>, sourceObservationId: objectId, metadata: { fromAnnotationQueueId: queueId, fromAnnotationQueueItemId: itemId } })`
 
-Use `--correction` (or `--correction-file`) to deep-merge a correction object into `expectedOutput` before saving — useful when the model's extraction was wrong and you want the dataset to reflect the ground-truth value.
-
-By default prints `dataset item: <id>  (source obs: <obs-id>)`. Pass `--json` for the raw API response.
-
-### Underlying API calls
-
-If you need to do this without the scripts:
-
-1. `annotation-queues get-get-queue-item <queue-id> <item-id>` → `body.objectId`, `body.objectType`
-2. `annotation-queues get-get-queue <queue-id>` → `body.scoreConfigIds[]`
-3. `scores list --queue-id <queue-id> --observation-id <obj-id>` (or `--trace-id` for trace-typed items) → existing `configId`s
-4. Set difference of (2) minus (3), then `score-configs get-get-by-id <id>` to resolve each missing config to its name.
-5. Write each missing score via `POST /api/public/scores` directly (the CLI's `legacy-score-v1s create` is broken for valued bodies). Body: `{traceId, observationId?, name, value, dataType, configId, queueId?, comment?}`. Auth is HTTP Basic with `LANGFUSE_PUBLIC_KEY:LANGFUSE_SECRET_KEY`.
-6. Patch the item: `annotation-queues update <queue-id> <item-id> --status COMPLETED`.
+Pass an explicit `id` to `upsertDatasetItem` if you need retries to be idempotent — otherwise a new item is created (with an auto-generated id) on every call.
 
 ## 3. Langfuse Documentation
 
@@ -246,4 +234,3 @@ Search is a great fallback if you cannot find the relevant pages or need more co
 1. Start with **llms.txt** to orient — scan for relevant page titles
 2. **Fetch specific pages** when you identify the right one
 3. Fall back to **search** when the topic is unclear and you want more context
-
