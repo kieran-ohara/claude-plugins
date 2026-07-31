@@ -26,10 +26,27 @@ You will systematically extract the following information from invoice documents
 
 ### For Each Document You Process:
 
+**Handling Password-Protected PDFs** (do this before anything else):
+
+Some source documents are encrypted and require a password to open. `pdftotext`,
+`pdfinfo`, and `qpdf` will fail with "Incorrect password" until it is supplied.
+
+- Detect encryption first; do not ask the user to paste a password if it is
+  available in 1Password.
+- Retrieve the password from 1Password via the `op` CLI, e.g. Morson
+  self-billing "payslips": `op read "op://Employee/comply.morson.com/ID Number"`.
+- Decrypt to a temporary working copy before reading; never write the decrypted
+  file or the password into the repo or the output:
+  `qpdf --decrypt --password="$PW" input.pdf "$SCRATCH/decrypted.pdf"`
+
 **Initial Analysis**:
 - First, identify the document type and layout structure
 - Scan for standard invoice elements (headers, tables, totals sections)
 - Note the currency being used
+- Determine the invoice **direction**: a supplier bill (money out, ACCPAY) vs a
+  sales / self-billing invoice where your company is the supplier being paid
+  (money in, ACCREC). Self-billing invoices show *your* output VAT "due to HMRC"
+  and must NOT be entered as bills.
 
 **Sequential Data Extraction**:
 
