@@ -11,7 +11,7 @@
       "skills": [
         "./skills/amazon-invoice",
         "./skills/corporation-tax",
-        "./skills/uber-eats-invoice",
+        "./skills/uber-invoice",
         "./skills/verify-payslip",
         "./skills/xero-invoice-importer"
       ]

@@ -81,7 +81,7 @@ Skills must be added to the `skills` array of the appropriate plugin:
       "source": "./plugins/invoice-tools",
       "skills": [
         "./skills/amazon-invoice",
-        "./skills/uber-eats-invoice",
+        "./skills/uber-invoice",
         "./skills/xero-invoice-importer"
       ]
     }
