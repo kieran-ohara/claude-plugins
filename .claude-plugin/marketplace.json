@@ -29,15 +29,16 @@
         "./skills/fixup",
         "./skills/langfuse",
         "./skills/stack-commits",
-        "./skills/study-domain",
-        "./skills/use-title-case"
+        "./skills/study-domain"
       ]
     },
     {
       "name": "personal-tools",
       "source": "./plugins/personal-tools",
       "description": "Agents and skills for personal automation including grocery shopping and medication ordering",
-      "skills": []
+      "skills": [
+        "./skills/use-title-case"
+      ]
     }
   ]
 }
