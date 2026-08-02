@@ -29,7 +29,8 @@
         "./skills/fixup",
         "./skills/langfuse",
         "./skills/stack-commits",
-        "./skills/study-domain"
+        "./skills/study-domain",
+        "./skills/use-title-case"
       ]
     },
     {
