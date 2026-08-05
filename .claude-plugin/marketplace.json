@@ -29,7 +29,6 @@
         "./skills/fixup",
         "./skills/gh-stack",
         "./skills/langfuse",
-        "./skills/stack-commits",
         "./skills/study-domain"
       ]
     },
