@@ -24,6 +24,7 @@
         "./skills/analyse-use-cases",
         "./skills/babysit-pr",
         "./skills/changeset",
+        "./skills/cv-commit-analyzer",
         "./skills/deploy",
         "./skills/find-use-cases",
         "./skills/fixup",
