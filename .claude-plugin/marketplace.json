@@ -31,6 +31,7 @@
         "./skills/fixup",
         "./skills/gh-stack",
         "./skills/langfuse",
+        "./skills/prune-branches",
         "./skills/study-domain"
       ]
     },
@@ -44,4 +45,3 @@
     }
   ]
 }
-
