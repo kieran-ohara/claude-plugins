@@ -30,6 +30,7 @@
         "./skills/find-use-cases",
         "./skills/fixup",
         "./skills/gh-stack",
+        "./skills/hoist-conventions",
         "./skills/langfuse",
         "./skills/prune-branches",
         "./skills/study-domain"
