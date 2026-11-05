@@ -44,6 +44,24 @@
       "skills": [
         "./skills/use-title-case"
       ]
+    },
+    {
+      "name": "specify",
+      "source": "./plugins/specify",
+      "description": "GitHub Spec Kit workflow skills (specify, plan, tasks, implement) for projects with a .specify/ directory",
+      "skills": [
+        "./skills/speckit-agent-context-update",
+        "./skills/speckit-analyze",
+        "./skills/speckit-checklist",
+        "./skills/speckit-clarify",
+        "./skills/speckit-constitution",
+        "./skills/speckit-converge",
+        "./skills/speckit-implement",
+        "./skills/speckit-plan",
+        "./skills/speckit-specify",
+        "./skills/speckit-tasks",
+        "./skills/speckit-taskstoissues"
+      ]
     }
   ]
 }
