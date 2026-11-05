@@ -33,7 +33,8 @@
         "./skills/hoist-conventions",
         "./skills/langfuse",
         "./skills/prune-branches",
-        "./skills/study-domain"
+        "./skills/study-domain",
+        "./skills/triage-prs"
       ]
     },
     {
