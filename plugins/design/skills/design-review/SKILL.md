@@ -19,9 +19,18 @@ place" excuses almost any cramped layout. A reviewer that has never seen the
 work before reads the screen the way its users will.
 
 So: dispatch with `subagent_type: design-reviewer`, which starts fresh. **Never
-use a fork**, and never review the screenshots yourself — a fork inherits this
-conversation and your own reading is already contaminated by whatever came
-before. Your job is to assemble the input, dispatch, and merge.
+use a fork** — a fork inherits this conversation, and the whole point is a
+reader who has not had it. Your job is to assemble the input, dispatch, and
+merge.
+
+**You may look at the screenshots; you may not form a view on them.** Taking
+inventory is part of your job — step 3 cannot prune reference files without
+knowing what is on screen. Judging is not. The line is what you are looking
+for: *what is present* (photography, colour, icons, an empty state) rather than
+*what is wrong*. If you catch yourself noticing that the spacing is tight, that
+is a reviewer's thought and it goes no further — not into a dispatch prompt, not
+into the report. Your own critique is contaminated by this conversation, which
+is exactly what you are dispatching around.
 
 ## 1. Get the screenshots onto disk
 
