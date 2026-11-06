@@ -94,6 +94,13 @@ Skills must be added to the `skills` array of the appropriate plugin:
 - Skills won't be available until registered in the manifest
 - Always update the manifest when creating or removing skills
 
+## Git
+
+Commit directly on `main` in this repo — no feature branches, no pull
+requests, unless asked for one. This is a personal plugins repo and the
+branch ceremony is overhead; it overrides the usual "branch first if on the
+default branch" default.
+
 ## References
 
 Official documentation: https://code.claude.com/docs/en/skills
