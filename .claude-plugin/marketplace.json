@@ -82,6 +82,11 @@
         "./skills/speckit-tasks",
         "./skills/speckit-taskstoissues"
       ]
+    },
+    {
+      "name": "typescript-lsp",
+      "source": "./plugins/typescript-lsp",
+      "description": "TypeScript/JavaScript code intelligence via the native TypeScript 7 language server"
     }
   ]
 }
