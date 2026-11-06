@@ -5,6 +5,14 @@
   },
   "plugins": [
     {
+      "name": "design",
+      "source": "./plugins/design",
+      "description": "Skills for reviewing and critiquing user interface design",
+      "skills": [
+        "./skills/design-review"
+      ]
+    },
+    {
       "name": "invoice-tools",
       "source": "./plugins/invoice-tools",
       "description": "Skills for invoice processing, Xero accounting, and tax calculations",
