@@ -81,6 +81,13 @@ mock means `working-with-color.md` goes. Pruning is how you keep reviewers from
 manufacturing findings to justify their dispatch — an images reviewer handed a
 login form *will* reach.
 
+This is the inventory pass, so look at the screenshots and answer only *is
+there any of this on screen*. Prefer evidence that is structural rather than
+visual where you have it: a Figma export manifest that returned no source
+images settles the question without your having to form an impression at all.
+Pruning is the one judgement you make about the content, and it is a judgement
+about presence, not quality.
+
 Then group what survives. Default is **three reviewers**:
 
 | Reviewer | Reference files |
@@ -127,7 +134,11 @@ that makes the output usable.
   explanation.
 - **Resolve contradictions** rather than printing both. Where two reviewers
   genuinely disagree, make the call, say which way you went, and say why in a
-  clause. The brief usually decides it.
+  clause. The brief usually decides it. Read their `Working well` sections for
+  this too — a reviewer praising the very thing another one flagged is the
+  commonest form of the disagreement, and it is easy to miss because one side
+  of it is not filed as a finding. Where you have structural evidence (a frame's
+  real width from the Figma node tree, say), it beats both readings.
 - **Drop the reaches.** A `low` severity, `probable` confidence finding that
   reads as a stretch is noise. Cutting it is the most valuable thing you do
   here.
