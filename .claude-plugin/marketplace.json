@@ -38,6 +38,18 @@
       ]
     },
     {
+      "name": "mp-tools",
+      "source": "./plugins/mp-tools",
+      "description": "Matt Pocock's skills, vendored from the mattpocock-skills submodule: the grilling interview primitive, domain modeling (GLOSSARY.md and ADRs), and writing-for-agents",
+      "skills": [
+        "./skills/domain-modeling",
+        "./skills/grill-me",
+        "./skills/grill-with-docs",
+        "./skills/grilling",
+        "./skills/writing-for-agents"
+      ]
+    },
+    {
       "name": "personal-tools",
       "source": "./plugins/personal-tools",
       "description": "Agents and skills for personal automation including grocery shopping and medication ordering",
