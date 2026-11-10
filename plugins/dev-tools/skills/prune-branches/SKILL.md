@@ -42,6 +42,23 @@ Exclude from candidacy:
 - Backup branches (`backup/*`) tied to a candidate — group them with their
   primary branch so they're offered for deletion together.
 
+Excluded is not the same as unexamined. For each worktree's branch, report
+whether it can be let go, from inside that worktree:
+
+```bash
+git status --porcelain | wc -l                    # uncommitted or staged files
+git rev-list --count @{u}..HEAD                   # commits not pushed
+git rev-list --left-right --count origin/$trunk...HEAD   # behind / ahead
+git log -1 --format='%cr'                         # when the tip last moved
+```
+
+Beside that state, name any live session in the worktree: match each session's
+`cwd` from `claude agents --json` to the worktree root.
+
+A branch whose tip moved within the last hour is in use even when no session
+sits in its checkout — another session reaches branches by `cd` or `git -C`.
+Keep it, checked out or not, and say why.
+
 ### 3. Partition: gh-stack-tracked vs standalone
 
 `gh stack` keeps its tracking in a JSON file at
@@ -142,6 +159,11 @@ One table, grouped by verdict, before touching anything:
 
 ### Needs your call
 - agent-spike             no PR            conflicts with main
+
+### In a worktree
+- 1045                    PR #1093 OPEN    13 uncommitted, all pushed, 80 behind   no session
+- 880-provision-matching-indices  PR #1106 OPEN  tip moved 3 min ago   session: app-kit-880-provision-matching-indices-c1 (idle)
+- speckit-design-check    PR #994 CLOSED   tip moved 3 min ago, 405 staged   no session
 ```
 
 ### 6. Confirm
